@@ -1,0 +1,1 @@
+for(n=0;++n<101;)console.log((n%3?'':'Fizz')+(n%5?'':'Buzz')||n)
