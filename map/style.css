@@ -1,0 +1,7 @@
+#wrapper {
+    height: 600px;
+}
+#map, #map-two {
+    height: 100%;
+    width: 100%;
+}
