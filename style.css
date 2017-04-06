@@ -9,15 +9,41 @@
     font-weight: 500;
 }
 
+.navbar-default .navbar-nav>li>a:hover {
+    background-color: steelblue;
+    color: #FFFFFF;
+}
+
+footer {
+    background-color: #00467f;
+    text-align: center;
+}
+
+footer h4 {
+    color: #FFFFFF;
+    font-family: "Segoe UI";
+}
+
 .fa a  {
     color: #ffffff;
     font-size: 22px;
 }
 
 .col-sm-2 {
-    border: solid grey 1px;
+    border: solid rgb(220,220,220) 1px;
+    padding: 10px;
 }
 
+.col-sm-10 {
+    text-align: center;
+}
+.col-sm-10 h1 {
+    font-family: "Segoe UI";
+    font-weight: 500;
+}
+.col-md-10 {
+    vertical-align: center;
+}
 .col-md-10 h3 {
     color: #ffffff;
     font-family: "Segoe UI";
@@ -63,5 +89,11 @@
 }
 
 .tabs {
-    width: 650px;
+    width: 100%;
+    border: solid rgb(220,220,220) 1px;
+}
+
+.tabs img {
+    width: 900px;
+    height: 215px;
 }
