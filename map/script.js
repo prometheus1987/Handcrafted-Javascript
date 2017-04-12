@@ -3,7 +3,7 @@ function initMap() {
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 6,
         mapTypeId: 'roadmap',
-        center: {lat: 30.9433307, lng: -83.0067215}
+        center: {lat: 30.550333, lng: -83.1483877}
     });
 
     var markers = [
@@ -47,7 +47,7 @@ function initMap() {
         [
             '<div class="content">' +
             '<h3>Atlanta</h3>' + '</div>',
-            'Atlanta Info'
+            'Atlanta Flipbook information'
         ],
         [
             '<div class="content">' +
@@ -90,6 +90,7 @@ function initMap() {
 
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
+                 map.setCenter(marker.getPosition());
                 infoWindow.setContent(infoWindowContent[i][0]);
                 infoWindow.open(map, marker);
                 $("#map-info").html(infoWindowContent[i][0]);
