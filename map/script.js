@@ -44,55 +44,57 @@ function initMap() {
     });
 
     var infoWindowContent = [
-        ['<div class="content">' +
-        '<h3>Atlanta</h3>' + '</div>'],
-        ['<div class="content">' +
-        '<h3>Valdosta</h3>' + '</div>'],
-        ['<div class="content">' +
-        '<h3>Tallahassee</h3>' + '</div>'],
-        ['<div class="content">' +
-        '<h3>Tampa</h3>' + '</div>'],
-        ['<div class="content">' +
-        '<h3>Orlando</h3>' + '</div>'],
-        ['<div class="content">' +
-        '<h3>Miami</h3>' + '</div>']
+        [
+            '<div class="content">' +
+            '<h3>Atlanta</h3>' + '</div>',
+            'Atlanta Info'
+        ],
+        [
+            '<div class="content">' +
+            '<h3>Valdosta</h3>' + '</div>',
+            'Valdosta Info'
+        ],
+        [
+            '<div class="content">' +
+            '<h3>Tallahassee</h3>' + '</div>',
+            'Tallhassee Info'
+        ],
+        [
+            '<div class="content">' +
+            '<h3>Tampa</h3>' + '</div>',
+            'Tampa Info'
+        ],
+        [
+            '<div class="content">' +
+            '<h3>Orlando</h3>' + '</div>',
+            'Orlando Info'
+        ],
+        [
+            '<div class="content">' +
+            '<h3>Miami</h3>' + '</div>',
+            'Miami Info'
+        ]
     ];
 
-    
     showFirstRoute.setMap(map);
     showSecondRoute.setMap(map);
-
     var infoWindow = new google.maps.InfoWindow(), marker, i;
 
-        for( i = 0; i < markers.length; i++ ) {
-            var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
-            marker = new google.maps.Marker({
-                position: position,
-                map: map,
-                title: markers[i][0]
-            });
+    for ( i = 0; i < markers.length; i++) {
+        var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
+        var marker = new google.maps.Marker({
+            position: position,
+            map: map,
+            title: markers[i][0]
+        });
 
-            google.maps.event.addListener(marker, 'click', (function(marker, i) {
-                return function() {
-                    infoWindow.setContent(infoWindowContent[i][0]);
-                    infoWindow.open(map, marker);
-                }
-            })(marker, i));
-
-            function bindInfoWindow(marker, map, infoWindow, infoWindowContent) {
-                google.maps.event.addListener(marker, 'click', function() {
-                document.getElementById('.content').innerHTML = infoWindowContent;
-            });
-        }
+        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+            return function () {
+                infoWindow.setContent(infoWindowContent[i][0]);
+                infoWindow.open(map, marker);
+                $("#map-info").html(infoWindowContent[i][0]);
+                $("#info-text").text(infoWindowContent[i][1]);
+            }
+        })(marker, i));
     }
-
-
-    bindInfoWindow(marker, map, infoWindow, infoWindowContent);
- }
-
-   
-	 
-	
-
-
-
+}
