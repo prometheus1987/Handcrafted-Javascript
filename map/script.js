@@ -8,12 +8,12 @@ function initMap() {
 
     var markers = [
         ['Atlanta', 33.7676338, -84.5606894],
-        ['Valdosta', 30.8456432,-83.3532624],
+        ['Valdosta', 30.8456432,-83.3532621],
         ['Tallahassee', 30.4670647,-84.3969418],
         ['Tampa', 27.9961981, -82.5942839],
         ['Orlando', 28.4810971, -81.5088361],
         ['Miami', 25.7823072, -80.3010438]
-    ];
+    ]
 
     var firstRoute = [
         {lat: 33.7676338, lng: -84.5606894},
@@ -58,24 +58,41 @@ function initMap() {
         '<h3>Miami</h3>' + '</div>']
     ];
 
-    var infoWindow = new google.maps.InfoWindow(), marker, i;
-
-    for( i = 0; i < markers.length; i++ ) {
-        var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
-        marker = new google.maps.Marker({
-            position: position,
-            map: map,
-            title: markers[i][0]
-        });
-
-        google.maps.event.addListener(marker, 'click', (function(marker, i) {
-            return function() {
-                infoWindow.setContent(infoWindowContent[i][0]);
-                infoWindow.open(map, marker);
-            }
-        })(marker, i));
-    }
-
+    
     showFirstRoute.setMap(map);
     showSecondRoute.setMap(map);
-}
+
+    var infoWindow = new google.maps.InfoWindow(), marker, i;
+
+        for( i = 0; i < markers.length; i++ ) {
+            var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
+            marker = new google.maps.Marker({
+                position: position,
+                map: map,
+                title: markers[i][0]
+            });
+
+            google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                return function() {
+                    infoWindow.setContent(infoWindowContent[i][0]);
+                    infoWindow.open(map, marker);
+                }
+            })(marker, i));
+
+            function bindInfoWindow(marker, map, infoWindow, infoWindowContent) {
+                google.maps.event.addListener(marker, 'click', function() {
+                document.getElementById('.content').innerHTML = infoWindowContent;
+            });
+        }
+    }
+
+
+    bindInfoWindow(marker, map, infoWindow, infoWindowContent);
+ }
+
+   
+	 
+	
+
+
+

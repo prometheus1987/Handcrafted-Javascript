@@ -1,7 +1,12 @@
 #wrapper {
     height: 600px;
+    width: 800px;
 }
-#map, #mapbox-map {
+#map {
     height: 100%;
     width: 100%;
+}
+
+.col-md-4 {
+    max-width: 400px;
 }
