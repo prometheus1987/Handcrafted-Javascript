@@ -6,14 +6,14 @@ function initMap() {
         center: {lat: 30.550333, lng: -83.1483877}
     });
 
-    var markers = [
+    var locations = [
         ['Atlanta', 33.7676338, -84.5606894],
         ['Valdosta', 30.8456432,-83.3532621],
         ['Tallahassee', 30.4670647,-84.3969418],
         ['Tampa', 27.9961981, -82.5942839],
         ['Orlando', 28.4810971, -81.5088361],
         ['Miami', 25.7823072, -80.3010438]
-    ]
+    ];
 
     var firstRoute = [
         {lat: 33.7676338, lng: -84.5606894},
@@ -78,19 +78,20 @@ function initMap() {
 
     showFirstRoute.setMap(map);
     showSecondRoute.setMap(map);
-    var infoWindow = new google.maps.InfoWindow(), marker, i;
+    var infoWindow = new google.maps.InfoWindow(), i;
 
-    for ( i = 0; i < markers.length; i++) {
-        var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
+
+    for ( i = 0; i < locations.length; i++) {
+        var position = new google.maps.LatLng(locations[i][1], locations[i][2]);
         var marker = new google.maps.Marker({
             position: position,
             map: map,
-            title: markers[i][0]
+            title: locations[i][0],
         });
 
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
-                 map.setCenter(marker.getPosition());
+                map.setCenter(marker.getPosition());
                 infoWindow.setContent(infoWindowContent[i][0]);
                 infoWindow.open(map, marker);
                 $("#map-info").html(infoWindowContent[i][0]);
