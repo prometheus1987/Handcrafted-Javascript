@@ -1,32 +1,221 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Google Maps Demo</title>
-</head>
-<body>
+
+    <style>
+    .row {
+        width: 600px;  
+        height: 432px;
+        display: inline-block;
+        margin-left: 5% !important;
+    }
+
+    #left img  {
+        height: 100%;
+        width: 247px;
+    }
+
+    .row .col-xs-2 {
+        z-index: 999;
+        height: 432px;
+        width:200px;
+
+    }
+
+    #right img {   
+        width: 300px;
+        height: 100%;
+        margin-top: -450px;
+        margin-left: 649px;
+    
+    }
+    .row .col-md-8 .wrapper {
+        height: 432px;
+        width: 600px;
+        z-index: 1;
+    }
+
+    #map {
+        height: 100%;
+        width: 100%;
+
+    }
+
+    .row .col-md-12 .infoWindow {
+        max-width: 400px;
+        vertical-align:center;
+
+    }
+
+    #map-info h3 {
+        font-size: 36px;
+    }
+    </style>
     <div class="row">
+        <div class="col-xs-2" id="left" style="width:200px;">
+               <img src="http://sites.suntrust.com/teams/HumanResources/onUp_onTour/Images/chevron_left.png">
+        </div>
+         
         <div class="col-md-8">
             <div class="wrapper">
                 <div id="map"></div>
             </div>
         </div>
+        <div class="col-xs-2" id="right">
+            <img src="http://sites.suntrust.com/teams/HumanResources/onUp_onTour/Images/chevron_right.png">
+        </div>
+    </div>
+    <div class="row" style="height:100px;">
         <div class="col-md-4">
             <div class="infoWindow">
                 <div id="map-info"></div>
-                <p id="info-text"></p>
+                    <p id="info-text"></p>
+                </div>
             </div>
         </div>
     </div>
 </body>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-<link rel="stylesheet" href="style.css">
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBNnBhA2RPSWldjIeoNo6u2dcCTNhdV7SI&callback=initMap">
 </script>
-<script src="script.js"></script>
-</html>
+
+<script>
+
+    function initMap() {
+    var coordinates, lat, lng;
+
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 6,
+        mapTypeId: 'roadmap',
+        center: {lat: 30.550333, lng: -83.1483877}
+    });
+
+    $.ajax({
+            url: "http://sites.suntrust.com/teams/HumanResources/onUp_onTour/_api/web/lists/getbytitle('datasource')/items",
+            type: "GET",
+            dataType: 'json',
+            headers: {"Accept": "application/json;odata=verbose"},
+            success: onSuccess
+
+        })
+        function onSuccess(results) {
+            
+            var items = []; 
+            var data = results.d.results;
+
+            $.each(data, function(i, item){
+                console.log(data);
+                project = item.Project;
+                date = item.Date_x0020_of_x0020_Visit;
+                title = item.TItle;
+                name = item.Location_x0020_Name;
+                street = item.Street;
+                city = item.City;
+                state = item.State;
+                zip = item.ZIP;
+                locationStatus = item.Status;
+
+                var fullAddress = street + ", " + city + " ," + state + " " + zip 
+
+                var geocoder = new google.maps.Geocoder();
+                geocoder.geocode( { 'address': fullAddress }, function(results, status) {
+                    var coordinates = results[0].geometry.location,
+                        lat = coordinates.lat();
+                        lng = coordinates.lng();
+                        markerCoordinates = lat.toString() + "," + lng.toString();
+                    markers.push(markerCoordinates);
+                }) 
+                items.push (fullAddress, project, status);
+                
+                  
+        })
+    }
+
+    // var markers =
+    //  [
+    //     // ['Atlanta', 33.7676338, -84.5606894],
+    //     // ['Valdosta', 30.8456432,-83.3532621]
+    //     // // ['Tallahassee', 30.4670647,-84.3969418],
+    //     // // ['Tampa', 27.9961981, -82.5942839],
+    //     // // ['Orlando', 28.4810971, -81.5088361],
+    //     // // ['Miami', 25.7823072, -80.3010438]
+    // ]
+    debugger;
+    
+    var firstRoute = [
+        {lat: 33.7676338, lng: -84.5606894},    
+        {lat: 30.8456432, lng: -83.3532624}
+    ];
+
+    var secondRoute = [
+        {lat: 30.4670647, lng: -84.3969418},
+        {lat: 28.4810971, lng: -81.5088361},
+        {lat: 27.9961981, lng: -82.5942839},
+        {lat: 25.7823072, lng: -80.3010438}
+    ];
+
+    var showFirstRoute = new google.maps.Polyline({
+        path: firstRoute,
+        geodesic: true,
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.4,
+        strokeWeight: 2
+    });
+
+    var showSecondRoute = new google.maps.Polyline({
+        path: secondRoute,
+        geodesic: true,
+        strokeColor: '#0000FF',
+        strokeOpacity: 0.4,
+        strokeWeight: 2
+    });
+
+    var infoWindowContent = [
+        [   
+            // '<div>' +
+            // Title +
+            // Project +
+            // locationStatus +
+            // date +
+            // '</div>'
+        ]
+    ];
+
+    var icons = {
+          blue: {
+            icon: 'Blue_pin_transparent.svg'
+          },
+          orange: {
+            icon: 'Orange_pin.svg'
+          }
+        };
+
+    showFirstRoute.setMap(map);
+    showSecondRoute.setMap(map);
+    var infoWindow = new google.maps.InfoWindow(), marker, i;
+
+    for ( i = 0; i < markers.length; i++) {
+        var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
+        var markerSize = new google.maps.Size(80, 10);
+        var marker = new google.maps.Marker({
+            position: position,
+            map: map,
+            // icon: 'Blue_pin_transparent.svg',
+            title: markers[i][0],
+            size: markerSize
+        });
+
+        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+            return function () {
+                 map.setCenter(marker.getPosition());
+                infoWindow.setContent(infoWindowContent[i][0]);
+                infoWindow.open(map, marker);
+                $("#map-info").html(infoWindowContent[i][0]);
+                $("#info-text").text(infoWindowContent[i][1]);
+            }
+        })(marker, i));
+    }
+}
+</script>
