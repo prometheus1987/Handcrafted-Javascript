@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mapbox</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.js'></script>
+    <link href='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css' rel='stylesheet' />
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="wrapper">
+                <div id="map"></div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    L.mapbox.accessToken = 'pk.eyJ1IjoicHJvbWV0aGV1czE5ODciLCJhIjoiY2l5Nml0cDl1MDA2djJ4cWhqZGhnaXczbSJ9.Fn_lmOLl4liXoN54d7dEWw';
+    L.mapbox.map('map', 'mapbox.mars-satellite');
+</script>
+</html>
